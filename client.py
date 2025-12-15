@@ -1,5 +1,6 @@
 import asyncio
 import os
+from dotenv import load_dotenv
 
 import google.generativeai as genai
 from google.generativeai.types import content_types
@@ -9,15 +10,20 @@ from google.protobuf import struct_pb2
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
+load_dotenv()
+
 # ================= KONFIGURASI =================
 # GANTI DENGAN API KEY ANDA
-API_KEY = "AIzaSyBo05xl3RYX2JgkhCBgXEgJNjP9MsHDamU" 
+API_KEY = os.getenv("GEMINI_API_KEY")
+
+if not API_KEY:
+    raise ValueError("API Key tidak ditemukan! Pastikan sudah membuat file .env")
 
 # Script server anda
 SERVER_SCRIPT = "server_mcp.py"
 
 # Gunakan model yang terdeteksi di komputer Anda
-MODEL_NAME = 'gemini-2.5-flash' 
+MODEL_NAME = 'gemini-2.5-flash-lite' 
 # ===============================================
 
 genai.configure(api_key=API_KEY)
